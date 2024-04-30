@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Booking</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 50px;
+        }
+        .pizza {
+            background-image: url('pizza_background.jpg'); /* Add your pizza background image */
+            background-size: cover;
+            padding: 100px 0;
+        }
+        .toppings {
+            margin-top: 30px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Our Pizza Booking</h1>
+        <div class="pizza">
+            <h2>Select Your Pizza:</h2>
+            <select id="pizzaType">
+                <option value="cheese">Cheese Pizza - $10</option>
+                <option value="pepperoni">Pepperoni Pizza - $12</option>
+                <option value="veggie">Veggie Pizza - $11</option>
+            </select>
+        </div>
+        <div class="toppings">
+            <h2>Select Toppings (each $1):</h2>
+            <input type="checkbox" id="topping1" name="topping1" value="extra cheese">
+            <label for="topping1"> Extra Cheese</label><br>
+            <input type="checkbox" id="topping2" name="topping2" value="mushrooms">
+            <label for="topping2"> Mushrooms</label><br>
+            <input type="checkbox" id="topping3" name="topping3" value="peppers">
+            <label for="topping3"> Peppers</label><br>
+        </div>
+        <div class="payment">
+            <h2>Enter Payment Details:</h2>
+            <input type="text" id="cardName" placeholder="Cardholder Name"><br>
+            <input type="text" id="cardNumber" placeholder="Card Number (16 digits)"><br>
+            <input type="text" id="ccv" placeholder="CCV"><br>
+            <input type="text" id="expiryDate" placeholder="Expiry Date (MM/YY)"><br>
+        </div>
+        <button class="btn" onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <script>
+        function placeOrder() {
+            var pizzaType = document.getElementById("pizzaType").value;
+            var toppings = [];
+            var checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+            for (var i = 0; i < checkboxes.length; i++) {
+                toppings.push(checkboxes[i].value);
+            }
+            var cardName = document.getElementById("cardName").value;
+            var cardNumber = document.getElementById("cardNumber").value;
+            var ccv = document.getElementById("ccv").value;
+            var expiryDate = document.getElementById("expiryDate").value;
+
+            // Calculate total price
+            var pizzaPrice = 0;
+            switch(pizzaType) {
+                case "cheese":
+                    pizzaPrice = 10;
+                    break;
+                case "pepperoni":
+                    pizzaPrice = 12;
+                    break;
+                case "veggie":
+                    pizzaPrice = 11;
+                    break;
+            }
+            var toppingPrice = toppings.length;
+            var totalPrice = pizzaPrice + toppingPrice;
+
+            // Show order confirmation
+            var tax = 0.1 * totalPrice; // Assuming 10% tax
+            var totalWithTax = totalPrice + tax;
+            var deliveryETA = Math.floor(Math.random() * 30) + 15; // Random ETA between 15 to 45 minutes
+            alert("Your order is booked!\nTotal Price (including tax): $" + totalWithTax.toFixed(2) + "\nEstimated Time of Delivery: " + deliveryETA + " minutes");
+        }
+    </script>
+</body>
+</html>

@@ -19,7 +19,7 @@
             margin-top: 50px;
         }
         .pizza {
-            background-image: url('pizza_background.jpg');
+            background-image: url('pizza_background.jpg'); /* Add your pizza background image */
             background-size: cover;
             padding: 100px 0;
         }
@@ -33,44 +33,81 @@
             text-align: center;
             text-decoration: none;
             display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Pizza Booking</h1>
+        <h1>Welcome to Our Pizza Booking</h1>
         <div class="pizza">
-            <h2>Select your pizza</h2>
-            <select id="pizza">
-                <option value="10">Margherita - $10</option>
-                <option value="12">Pepperoni - $12</option>
-                <option value="15">Veggie - $15</option>
+            <h2>Select Your Pizza:</h2>
+            <select id="pizzaType">
+                <option value="cheese">Cheese Pizza - $10</option>
+                <option value="pepperoni">Pepperoni Pizza - $12</option>
+                <option value="veggie">Veggie Pizza - $11</option>
             </select>
         </div>
         <div class="toppings">
-            <h2>Add toppings</h2>
-            <input type="checkbox" id="mushrooms" value="1"> Mushrooms - $1<br>
-            <input type="checkbox" id="peppers" value="1"> Peppers - $1<br>
-            <input type="checkbox" id="olives" value="1"> Olives - $1<br>
+            <h2>Select Toppings (each $1):</h2>
+            <input type="checkbox" id="topping1" name="topping1" value="extra cheese">
+            <label for="topping1"> Extra Cheese</label><br>
+            <input type="checkbox" id="topping2" name="topping2" value="mushrooms">
+            <label for="topping2"> Mushrooms</label><br>
+            <input type="checkbox" id="topping3" name="topping3" value="peppers">
+            <label for="topping3"> Peppers</label><br>
         </div>
         <div class="payment">
-            <h2>Payment details</h2>
-            <input type="text" id="cardName" placeholder="Card Name"><br>
-            <input type="text" id="cardNumber" placeholder="Card Number"><br>
-            <input type="text" id="cardExpiry" placeholder="Expiry Date"><br>
-            <input type="text" id="cardCCV" placeholder="CCV"><br>
+            <h2>Enter Payment Details:</h2>
+            <input type="text" id="cardName" placeholder="Cardholder Name"><br>
+            <input type="text" id="cardNumber" placeholder="Card Number (16 digits)"><br>
+            <input type="text" id="ccv" placeholder="CCV"><br>
+            <input type="text" id="expiryDate" placeholder="Expiry Date (MM/YY)"><br>
         </div>
         <button class="btn" onclick="placeOrder()">Place Order</button>
     </div>
+
     <script>
         function placeOrder() {
-            var pizzaPrice = document.getElementById('pizza').value;
-            var toppingsPrice = 0;
-            if (document.getElementById('mushrooms').checked) toppingsPrice += 1;
-            if (document.getElementById('peppers').checked) toppingsPrice += 1;
-            if (document.getElementById('olives').checked) toppingsPrice += 1;
-            var total = pizzaPrice + toppingsPrice;
-            alert('Order placed successfully. Total price is $' + total + '. Your pizza will be delivered in 30-45 minutes.');
+            var pizzaType = document.getElementById("pizzaType").value;
+            var toppings = [];
+            var checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+            for (var i = 0; i < checkboxes.length; i++) {
+                toppings.push(checkboxes[i].value);
+            }
+            var cardName = document.getElementById("cardName").value;
+            var cardNumber = document.getElementById("cardNumber").value;
+            var ccv = document.getElementById("ccv").value;
+            var expiryDate = document.getElementById("expiryDate").value;
+
+            // Calculate total price
+            var pizzaPrice = 0;
+            switch(pizzaType) {
+                case "cheese":
+                    pizzaPrice = 10;
+                    break;
+                case "pepperoni":
+                    pizzaPrice = 12;
+                    break;
+                case "veggie":
+                    pizzaPrice = 11;
+                    break;
+            }
+            var toppingPrice = toppings.length;
+            var totalPrice = pizzaPrice + toppingPrice;
+
+            // Show order confirmation
+            var tax = 0.1 * totalPrice; // Assuming 10% tax
+            var totalWithTax = totalPrice + tax;
+            var deliveryETA = Math.floor(Math.random() * 30) + 15; // Random ETA between 15 to 45 minutes
+            alert("Your order is booked!\nTotal Price (including tax): $" + totalWithTax.toFixed(2) + "\nEstimated Time of Delivery: " + deliveryETA + " minutes");
         }
     </script>
 </body>
